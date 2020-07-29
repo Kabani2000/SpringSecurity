@@ -1,5 +1,6 @@
 package yes.kabani.cruduser.dao;
 
+import yes.kabani.cruduser.model.Role;
 import yes.kabani.cruduser.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -26,7 +27,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void removeUser(long id) {
+    public void remove(long id) {
         Session session = sessionFactory.getCurrentSession();
         User existingUser = session.load(User.class, id);
         session.delete(existingUser);
@@ -45,8 +46,14 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public User getUserByName(String login) {
+        return (User) sessionFactory.getCurrentSession().createQuery("from User where login = :login")
+                .setParameter("login", login).getSingleResult();
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
-    public List<User> listUsers() {
+    public List<User> getUsers() {
         TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("from User");
         return query.getResultList();
     }

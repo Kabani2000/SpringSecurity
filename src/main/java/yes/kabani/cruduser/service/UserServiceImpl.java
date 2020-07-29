@@ -1,6 +1,6 @@
 package yes.kabani.cruduser.service;
 
-import yes.kabani.cruduser.dao.UserDao;
+import yes.kabani.cruduser.dao.UserDaoImpl;
 import yes.kabani.cruduser.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,19 +10,19 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
-    UserDao userDao;
+    UserDaoImpl dao;
 
     @Autowired
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
+    public void setDao(UserDaoImpl dao) {
+        this.dao = dao;
     }
 
     @Override
-    @Transactional
     public void addUser(User user) {
-        userDao.addUser(user);
+        dao.addUser(user);
     }
 
     @Override
@@ -31,20 +31,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
-    public void removeUser(long id) {
-        userDao.removeUser(id);
+    public void remove(long id) {
+        dao.remove(id);
     }
 
     @Override
-    @Transactional
     public void updateUser(User user) {
-        userDao.updateUser(user);
+        dao.updateUser(user);
     }
 
     @Override
-    @Transactional
-    public List<User> listUsers() {
-        return userDao.listUsers();
+    public List<User> getUsers() {
+        return dao.getUsers();
     }
 }
